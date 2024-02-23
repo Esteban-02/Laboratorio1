@@ -1,3 +1,4 @@
+
 class Conjunto:
     def __init__(self, elementos=None):
         if elementos is None:
@@ -7,40 +8,38 @@ class Conjunto:
     def agregar(self, elemento):
         self.elementos.add(elemento)
 
-    def union(self, *otros_conjuntos):
+    def union(self, otros_conjuntos):
         union = Conjunto(self.elementos)
         for otro_conjunto in otros_conjuntos:
             for elemento in otro_conjunto.elementos:
                 union.agregar(elemento)
         return union
 
-    def interseccion(self, *otros_conjuntos):
+    def interseccion(self, otros_conjuntos):
         interseccion = Conjunto(self.elementos)
         for otro_conjunto in otros_conjuntos:
-            for elemento in self.elementos.copy():
+            for elemento in interseccion.elementos.copy():
                 if elemento not in otro_conjunto.elementos:
                     interseccion.elementos.remove(elemento)
         return interseccion
 
-    def diferencia(self, *otros_conjuntos):
+    def diferencia(self, otros_conjuntos):
         diferencia = Conjunto(self.elementos)
         for otro_conjunto in otros_conjuntos:
             for elemento in otro_conjunto.elementos:
                 if elemento in diferencia.elementos:
                     diferencia.elementos.remove(elemento)
         return diferencia
-
-    def complemento(self, *otros_conjuntos):
-        conjunto_universal = Conjunto()
-        for otro_conjunto in otros_conjuntos:
-            conjunto_universal = conjunto_universal.union(otro_conjunto)
-
+    
+    
+    def complemento(self, conjunto_universal):
         complemento = Conjunto(conjunto_universal.elementos)
         for elemento in self.elementos:
             complemento.elementos.discard(elemento)
         return complemento
 
-    def combinacion(self, *otros_conjuntos):
+
+    def combinacion(self, otros_conjuntos):
         combinacion = Conjunto()
         for elemento in self.elementos:
             combinacion.agregar(elemento)
@@ -87,6 +86,15 @@ def obtener_conjuntos_para_operaciones(conjuntos):
     return conjuntos_seleccionados
 
 
+
+def union(self, *otros_conjuntos):
+        union = Conjunto(self.elementos)
+        for otro_conjunto in otros_conjuntos:
+            for elemento in otro_conjunto.elementos:
+                union.agregar(elemento)
+        return union
+
+
 def realizar_operaciones(conjuntos):
     print("Operaciones disponibles:")
     print("1. Unión")
@@ -99,16 +107,17 @@ def realizar_operaciones(conjuntos):
     conjuntos_seleccionados = obtener_conjuntos_para_operaciones(conjuntos)
 
     if operacion == 1:
-        resultado = conjuntos_seleccionados[0].union(*conjuntos_seleccionados[1:])
+        resultado = conjuntos_seleccionados[0].union(conjuntos_seleccionados[1:])
     elif operacion == 2:
-        resultado = conjuntos_seleccionados[0].interseccion(*conjuntos_seleccionados[1:])
+        resultado = conjuntos_seleccionados[0].interseccion(conjuntos_seleccionados[1:])
     elif operacion == 3:
-        resultado = conjuntos_seleccionados[0].diferencia(*conjuntos_seleccionados[1:])
+        resultado = conjuntos_seleccionados[0].diferencia(conjuntos_seleccionados[1:])
     elif operacion == 4:
-        universo = crear_conjunto()
-        resultado = conjuntos_seleccionados[0].complemento(universo)
+        conjunto_universal = conjuntos_seleccionados[0].union(conjuntos_seleccionados[1:])
+        resultado = conjuntos_seleccionados[0].complemento(conjunto_universal)
+
     elif operacion == 5:
-        resultado = conjuntos_seleccionados[0].combinacion(*conjuntos_seleccionados[1:])
+        resultado = conjuntos_seleccionados[0].combinacion(conjuntos_seleccionados[1:])
     else:
         print("Operación no válida")
         return
@@ -145,3 +154,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
